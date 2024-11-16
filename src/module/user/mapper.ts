@@ -1,0 +1,16 @@
+import { User } from 'src/model/users.schema';
+import { CreateUserDto } from './dto/create-user.dto';
+
+export class Mapper {
+  static toUserResponse(user: User): any {
+    return {
+      id: user._id,
+      name: user.username,
+      email: user.email,
+    };
+  }
+
+  static toUser(createUserDto: CreateUserDto) {
+    return createUserDto;
+  }
+}
