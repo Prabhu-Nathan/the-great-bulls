@@ -8,13 +8,13 @@ import { EmailService } from './shared/common/email.service';
 import { AuthModule } from './module/auth/auth.module';
 import { AuthController } from './module/auth/auth.controller';
 import { AuthService } from './module/auth/auth.service';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    AuthModule,
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -22,6 +22,25 @@ import { AuthService } from './module/auth/auth.service';
       }),
       inject: [ConfigService],
     }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    }),
+    // JwtModule.registerAsync({
+    //   imports: [ConfigModule],
+    //   inject: [ConfigService],
+    //   useFactory: async (configService: ConfigService) => {
+    //     const jwtSecret = configService.get<string>('JWT_SECRET');
+    //     console.log("secrect: ", jwtSecret);
+    //     if (!jwtSecret) {
+    //       throw new Error('JWT_SECRET is not defined');
+    //     }
+    //     return {
+    //       secret: jwtSecret,
+    //       signOptions: { expiresIn: '3h' },
+    //     };
+    //   },
+    // }),
     AuthModule,
     UserModule,
   ],
@@ -29,8 +48,9 @@ import { AuthService } from './module/auth/auth.service';
   providers: [
     EmailService,
     AuthService,
+    JwtService,
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
-  exports: [AuthService],
+  exports: [AuthService,EmailService,JwtService],
 })
 export class AppModule {}

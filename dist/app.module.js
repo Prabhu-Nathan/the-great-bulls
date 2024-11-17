@@ -17,6 +17,7 @@ const email_service_1 = require("./shared/common/email.service");
 const auth_module_1 = require("./module/auth/auth.module");
 const auth_controller_1 = require("./module/auth/auth.controller");
 const auth_service_1 = require("./module/auth/auth.service");
+const jwt_1 = require("@nestjs/jwt");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -26,13 +27,16 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
             }),
-            auth_module_1.AuthModule,
             mongoose_1.MongooseModule.forRootAsync({
                 imports: [config_1.ConfigModule],
                 useFactory: async (configService) => ({
                     uri: configService.get('DB_URL'),
                 }),
                 inject: [config_1.ConfigService],
+            }),
+            jwt_1.JwtModule.register({
+                secret: process.env.JWT_SECRET,
+                signOptions: { expiresIn: '1h' },
             }),
             auth_module_1.AuthModule,
             user_module_1.UserModule,
@@ -41,9 +45,10 @@ exports.AppModule = AppModule = __decorate([
         providers: [
             email_service_1.EmailService,
             auth_service_1.AuthService,
+            jwt_1.JwtService,
             { provide: core_1.APP_GUARD, useClass: roles_guard_1.RolesGuard },
         ],
-        exports: [auth_service_1.AuthService],
+        exports: [auth_service_1.AuthService, email_service_1.EmailService, jwt_1.JwtService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

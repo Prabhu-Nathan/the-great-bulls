@@ -32,14 +32,25 @@ let AuthService = class AuthService {
             throw new common_1.UnauthorizedException('Invalid credentials');
         }
         const payload = {
-            username: user.username,
             id: user._id,
+            username: user.username,
             email: user.email,
             role: user.role,
         };
-        return {
-            access_token: this.jwtService.sign(payload),
-        };
+        console.log("payload : ", payload);
+        console.log('JWT Secret:', process.env.JWT_SECRET);
+        const jwtSecret = process.env.JWT_SECRET;
+        if (!jwtSecret) {
+            throw new Error('JWT_SECRET is missing when signing the token!');
+        }
+        try {
+            const access_token = await this.jwtService.sign(payload);
+            return { access_token };
+        }
+        catch (error) {
+            console.error('Error signing JWT:', error);
+            throw new Error('Error signing JWT');
+        }
     }
     async validateUser(userLoginDto) {
         const user = await this.userModel.findOne({ email: userLoginDto.email });

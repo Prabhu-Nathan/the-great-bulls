@@ -5,6 +5,6 @@ export declare class JwtStrategy extends JwtStrategy_base {
     private readonly usersService;
     private readonly configService;
     constructor(usersService: UserService, configService: ConfigService);
-    validate(payload: any): Promise<import("../../model/users.schema").User>;
+    validate(payload: any): Promise<import("../user/users.schema").User>;
 }
 export {};

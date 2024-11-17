@@ -9,32 +9,8 @@ import { EmailService } from 'src/shared/common/email.service';
 import { UserService } from '../user/user.service';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
-    UserModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule, UserModule],
-      inject: [ConfigService],
-
-      useFactory: async (configService: ConfigService) => {
-        const jwtSecret = configService.get<string>('JWT_SECRET');
-        const dbUrl = configService.get<string>('DB_URL');
-        console.log('DB_URL:', dbUrl);
-        console.log('JWT_SECRET:', jwtSecret);
-        if (!jwtSecret) {
-          throw new Error('JWT_SECRET is not defined');
-        }
-        return {
-          secret: jwtSecret,
-          signOptions: { expiresIn: '3h' },
-        };
-      },
-    }),
-  ],
-
-  providers: [UserService, AuthService, JwtStrategy, EmailService],
+  imports: [UserModule],
+  providers: [UserService, AuthService, JwtService, EmailService],
   controllers: [AuthController],
 })
 export class AuthModule {}

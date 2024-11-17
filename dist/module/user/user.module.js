@@ -10,8 +10,8 @@ exports.UserModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const user_controller_1 = require("./user.controller");
-const users_schema_1 = require("../../model/users.schema");
 const user_service_1 = require("./user.service");
+const users_schema_1 = require("./users.schema");
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;
