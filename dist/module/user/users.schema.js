@@ -15,7 +15,7 @@ exports.UserSchema = new mongoose_1.Schema({
     },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-    profilePicture: { type: String, default: '' },
+    profilePicture: { type: String, default: "" },
     isVerified: { type: Boolean, required: true, default: false },
     verificationToken: { type: String },
 });

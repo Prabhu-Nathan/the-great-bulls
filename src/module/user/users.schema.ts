@@ -1,5 +1,5 @@
-import { Schema, Document } from 'mongoose';
-import { Role } from 'src/module/user/enum';
+import { Schema, Document } from "mongoose";
+import { Role } from "src/module/user/enum";
 
 export const UserSchema = new Schema({
   username: { type: String, required: true, unique: true },
@@ -13,7 +13,7 @@ export const UserSchema = new Schema({
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  profilePicture: { type: String, default: '' },
+  profilePicture: { type: String, default: "" },
   isVerified: { type: Boolean, required: true, default: false },
   verificationToken: { type: String },
 });

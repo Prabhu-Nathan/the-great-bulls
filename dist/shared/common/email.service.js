@@ -15,12 +15,12 @@ const nodemailer = require("nodemailer");
 let EmailService = class EmailService {
     constructor() {
         this.transporter = nodemailer.createTransport({
-            host: 'smtp.example.com',
+            host: "smtp.example.com",
             port: 587,
             secure: false,
             auth: {
-                user: 'your-email@example.com',
-                pass: 'your-email-password',
+                user: "your-email@example.com",
+                pass: "your-email-password",
             },
         });
     }
@@ -29,7 +29,7 @@ let EmailService = class EmailService {
         await this.transporter.sendMail({
             from: '"Your App" <your-email@example.com>',
             to: email,
-            subject: 'Email Verification',
+            subject: "Email Verification",
             html: `Please click the following link to verify your email: <a href="${url}">Verify Email</a>`,
         });
     }

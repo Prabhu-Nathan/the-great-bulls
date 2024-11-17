@@ -16,7 +16,6 @@ exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 const enum_1 = require("./enum");
-const roles_guard_1 = require("../auth/roles.guard");
 const roles_decorator_1 = require("../auth/roles.decorator");
 const create_user_dto_1 = require("./dto/create-user.dto");
 let UserController = class UserController {
@@ -35,16 +34,16 @@ let UserController = class UserController {
 };
 exports.UserController = UserController;
 __decorate([
-    (0, common_1.Get)(),
     (0, roles_decorator_1.Roles)(enum_1.Role.ADMIN),
+    (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getAllUsers", null);
 __decorate([
-    (0, common_1.Get)('/:email'),
+    (0, common_1.Get)("/:email"),
     (0, roles_decorator_1.Roles)(enum_1.Role.ADMIN),
-    __param(0, (0, common_1.Param)('email')),
+    __param(0, (0, common_1.Param)("email")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
@@ -57,8 +56,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "createTestUsers", null);
 exports.UserController = UserController = __decorate([
-    (0, common_1.Controller)('user'),
-    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, common_1.Controller)("user"),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

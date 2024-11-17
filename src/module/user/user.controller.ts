@@ -1,24 +1,22 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { UserService } from './user.service';
-import { Role } from './enum';
-import { RolesGuard } from '../auth/roles.guard';
-import { Roles } from '../auth/roles.decorator';
-import { CreateUserDto } from './dto/create-user.dto';
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { UserService } from "./user.service";
+import { Role } from "./enum";
+import { Roles } from "../auth/roles.decorator";
+import { CreateUserDto } from "./dto/create-user.dto";
 
-@Controller('user')
-@UseGuards(RolesGuard)
+@Controller("user")
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get()
   @Roles(Role.ADMIN)
+  @Get()
   public getAllUsers() {
     this.userService.findAllUsers();
   }
 
-  @Get('/:email')
+  @Get("/:email")
   @Roles(Role.ADMIN)
-  public getUserByEmail(@Param('email') email: string) {
+  public getUserByEmail(@Param("email") email: string) {
     this.userService.findUserByEmail(email);
   }
 

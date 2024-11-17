@@ -2,30 +2,30 @@ import {
   ConflictException,
   Injectable,
   UnauthorizedException,
-} from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from 'src/module/user/dto/create-user.dto';
-import { JwtService } from '@nestjs/jwt';
-import { randomBytes } from 'crypto';
-import { EmailService } from 'src/shared/common/email.service';
-import { UserLoginDto } from './dto/user-login.dto';
-import { User } from '../user/users.schema';
+} from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import * as bcrypt from "bcrypt";
+import { CreateUserDto } from "src/module/user/dto/create-user.dto";
+import { JwtService } from "@nestjs/jwt";
+import { randomBytes } from "crypto";
+import { EmailService } from "src/shared/common/email.service";
+import { UserLoginDto } from "./dto/user-login.dto";
+import { User } from "../user/users.schema";
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel('User') private userModel: Model<User>,
+    @InjectModel("User") private userModel: Model<User>,
     private jwtService: JwtService,
-    private emailService: EmailService,
+    private emailService: EmailService
   ) {}
 
   async login(userLoginDto: UserLoginDto) {
     const user = await this.validateUser(userLoginDto);
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException("Invalid credentials");
     }
 
     const payload = {
@@ -35,22 +35,17 @@ export class AuthService {
       role: user.role,
     };
 
-    console.log("payload : ",payload);
-    console.log('JWT Secret:', process.env.JWT_SECRET); 
     const jwtSecret = process.env.JWT_SECRET;
 
     if (!jwtSecret) {
-      throw new Error('JWT_SECRET is missing when signing the token!');
+      throw new Error("JWT_SECRET is missing when signing the token!");
     }
 
-
-    try {
-      const access_token = await this.jwtService.sign(payload); // Should sign the token with the secret
-      return { access_token }; // Return the signed token
-    } catch (error) {
-      console.error('Error signing JWT:', error); // Log any errors
-      throw new Error('Error signing JWT');
-    }
+    return {
+      access_token: await this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+      }),
+    };
   }
 
   async validateUser(userLoginDto: UserLoginDto): Promise<User> {
@@ -67,11 +62,11 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException('User with this email already exists.');
+      throw new ConflictException("User with this email already exists.");
     }
 
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    const verificationToken = randomBytes(5).toString('hex').slice(0, length);
+    const verificationToken = randomBytes(5).toString("hex").slice(0, length);
 
     const newUser = new this.userModel({
       ...createUserDto,
@@ -90,7 +85,7 @@ export class AuthService {
   async verifyEmail(token: string) {
     const user = await this.findByVerificationToken(token);
     if (!user) {
-      throw new Error('Invalid verification token');
+      throw new Error("Invalid verification token");
     }
     user.isVerified = true;
     user.verificationToken = null;

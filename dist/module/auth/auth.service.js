@@ -29,7 +29,7 @@ let AuthService = class AuthService {
     async login(userLoginDto) {
         const user = await this.validateUser(userLoginDto);
         if (!user) {
-            throw new common_1.UnauthorizedException('Invalid credentials');
+            throw new common_1.UnauthorizedException("Invalid credentials");
         }
         const payload = {
             id: user._id,
@@ -37,20 +37,15 @@ let AuthService = class AuthService {
             email: user.email,
             role: user.role,
         };
-        console.log("payload : ", payload);
-        console.log('JWT Secret:', process.env.JWT_SECRET);
         const jwtSecret = process.env.JWT_SECRET;
         if (!jwtSecret) {
-            throw new Error('JWT_SECRET is missing when signing the token!');
+            throw new Error("JWT_SECRET is missing when signing the token!");
         }
-        try {
-            const access_token = await this.jwtService.sign(payload);
-            return { access_token };
-        }
-        catch (error) {
-            console.error('Error signing JWT:', error);
-            throw new Error('Error signing JWT');
-        }
+        return {
+            access_token: await this.jwtService.sign(payload, {
+                secret: process.env.JWT_SECRET,
+            }),
+        };
     }
     async validateUser(userLoginDto) {
         const user = await this.userModel.findOne({ email: userLoginDto.email });
@@ -64,10 +59,10 @@ let AuthService = class AuthService {
             email: createUserDto.email,
         });
         if (existingUser) {
-            throw new common_1.ConflictException('User with this email already exists.');
+            throw new common_1.ConflictException("User with this email already exists.");
         }
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-        const verificationToken = (0, crypto_1.randomBytes)(5).toString('hex').slice(0, length);
+        const verificationToken = (0, crypto_1.randomBytes)(5).toString("hex").slice(0, length);
         const newUser = new this.userModel({
             ...createUserDto,
             password: hashedPassword,
@@ -82,7 +77,7 @@ let AuthService = class AuthService {
     async verifyEmail(token) {
         const user = await this.findByVerificationToken(token);
         if (!user) {
-            throw new Error('Invalid verification token');
+            throw new Error("Invalid verification token");
         }
         user.isVerified = true;
         user.verificationToken = null;
@@ -92,7 +87,7 @@ let AuthService = class AuthService {
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)('User')),
+    __param(0, (0, mongoose_1.InjectModel)("User")),
     __metadata("design:paramtypes", [mongoose_2.Model,
         jwt_1.JwtService,
         email_service_1.EmailService])
