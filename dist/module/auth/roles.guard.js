@@ -19,9 +19,8 @@ let RolesGuard = class RolesGuard {
     }
     canActivate(context) {
         const requiredRoles = this.reflector.get(roles_decorator_1.ROLES_KEY, context.getHandler());
-        if (!requiredRoles) {
+        if (!requiredRoles)
             return true;
-        }
         const { user } = context.switchToHttp().getRequest();
         return requiredRoles.some((role) => user.role === role);
     }

@@ -25,9 +25,8 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
     }
     async validate(payload) {
         const user = await this.usersService.findUserByEmail(payload.email);
-        if (!user) {
+        if (!user)
             throw new common_1.UnauthorizedException();
-        }
         return user;
     }
 };

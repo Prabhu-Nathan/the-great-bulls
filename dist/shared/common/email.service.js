@@ -15,19 +15,22 @@ const nodemailer = require("nodemailer");
 let EmailService = class EmailService {
     constructor() {
         this.transporter = nodemailer.createTransport({
-            host: "smtp.example.com",
-            port: 587,
-            secure: false,
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
             auth: {
-                user: "your-email@example.com",
-                pass: "your-email-password",
+                user: process.env.EMAIL_ACCOUNT,
+                pass: process.env.EMAIL_PASSWORD,
+            },
+            tls: {
+                rejectUnauthorized: false,
             },
         });
     }
     async sendVerificationEmail(email, token) {
-        const url = `http://localhost:3000/auth/verify-email?token=${token}`;
+        const url = `${AppConfig.HOST}/auth/verify-email?token=${token}`;
         await this.transporter.sendMail({
-            from: '"Your App" <your-email@example.com>',
+            from: "thegreatbulls@gmail.com",
             to: email,
             subject: "Email Verification",
             html: `Please click the following link to verify your email: <a href="${url}">Verify Email</a>`,

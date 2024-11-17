@@ -25,13 +25,7 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
             }),
-            mongoose_1.MongooseModule.forRootAsync({
-                imports: [config_1.ConfigModule],
-                useFactory: async (configService) => ({
-                    uri: configService.get("DB_URL"),
-                }),
-                inject: [config_1.ConfigService],
-            }),
+            mongoose_1.MongooseModule.forRoot(process.env.DB_URL),
             auth_module_1.AuthModule,
             user_module_1.UserModule,
         ],

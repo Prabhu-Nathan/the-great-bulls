@@ -32,4 +32,4 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
-//# sourceMappingURL=create-user.dto.js.map
+//# sourceMappingURL=createUser.dto.js.map

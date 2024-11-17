@@ -1,8 +1,8 @@
 import { Model } from "mongoose";
-import { CreateUserDto } from "src/module/user/dto/create-user.dto";
+import { CreateUserDto } from "src/module/user/dto/createUser.dto";
 import { JwtService } from "@nestjs/jwt";
 import { EmailService } from "src/shared/common/email.service";
-import { UserLoginDto } from "./dto/user-login.dto";
+import { UserLoginDto } from "./dto/userLogin.dto";
 import { User } from "../user/users.schema";
 export declare class AuthService {
     private userModel;

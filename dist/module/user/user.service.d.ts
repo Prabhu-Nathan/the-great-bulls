@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { CreateUserDto } from "./dto/create-user.dto";
+import { CreateUserDto } from "./dto/createUser.dto";
 import { User } from "./users.schema";
 export declare class UserService {
     private readonly userModel;

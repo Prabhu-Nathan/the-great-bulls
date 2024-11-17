@@ -1,5 +1,5 @@
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './users.schema';
+import { CreateUserDto } from "./dto/createUser.dto";
+import { User } from "./users.schema";
 
 export class Mapper {
   static toUserResponse(user: User): any {

@@ -6,11 +6,11 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import * as bcrypt from "bcrypt";
-import { CreateUserDto } from "src/module/user/dto/create-user.dto";
+import { CreateUserDto } from "src/module/user/dto/createUser.dto";
 import { JwtService } from "@nestjs/jwt";
 import { randomBytes } from "crypto";
 import { EmailService } from "src/shared/common/email.service";
-import { UserLoginDto } from "./dto/user-login.dto";
+import { UserLoginDto } from "./dto/userLogin.dto";
 import { User } from "../user/users.schema";
 
 @Injectable()
@@ -24,9 +24,7 @@ export class AuthService {
   async login(userLoginDto: UserLoginDto) {
     const user = await this.validateUser(userLoginDto);
 
-    if (!user) {
-      throw new UnauthorizedException("Invalid credentials");
-    }
+    if (!user) throw new UnauthorizedException("Invalid credentials");
 
     const payload = {
       id: user._id,
@@ -37,10 +35,6 @@ export class AuthService {
 
     const jwtSecret = process.env.JWT_SECRET;
 
-    if (!jwtSecret) {
-      throw new Error("JWT_SECRET is missing when signing the token!");
-    }
-
     return {
       access_token: await this.jwtService.sign(payload, {
         secret: process.env.JWT_SECRET,
@@ -50,9 +44,10 @@ export class AuthService {
 
   async validateUser(userLoginDto: UserLoginDto): Promise<User> {
     const user = await this.userModel.findOne({ email: userLoginDto.email });
-    if (user && (await bcrypt.compare(userLoginDto.password, user.password))) {
+
+    if (user && (await bcrypt.compare(userLoginDto.password, user.password)))
       return user;
-    }
+
     return null;
   }
 
@@ -61,12 +56,11 @@ export class AuthService {
       email: createUserDto.email,
     });
 
-    if (existingUser) {
+    if (existingUser)
       throw new ConflictException("User with this email already exists.");
-    }
 
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    const verificationToken = randomBytes(5).toString("hex").slice(0, length);
+    const verificationToken = randomBytes(100010).toString("hex").slice(0, 20);
 
     const newUser = new this.userModel({
       ...createUserDto,
@@ -84,9 +78,8 @@ export class AuthService {
 
   async verifyEmail(token: string) {
     const user = await this.findByVerificationToken(token);
-    if (!user) {
-      throw new Error("Invalid verification token");
-    }
+    if (!user) throw new Error("Invalid verification token");
+
     user.isVerified = true;
     user.verificationToken = null;
     return await user.save();

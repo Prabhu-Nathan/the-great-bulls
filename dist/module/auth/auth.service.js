@@ -28,9 +28,8 @@ let AuthService = class AuthService {
     }
     async login(userLoginDto) {
         const user = await this.validateUser(userLoginDto);
-        if (!user) {
+        if (!user)
             throw new common_1.UnauthorizedException("Invalid credentials");
-        }
         const payload = {
             id: user._id,
             username: user.username,
@@ -38,9 +37,6 @@ let AuthService = class AuthService {
             role: user.role,
         };
         const jwtSecret = process.env.JWT_SECRET;
-        if (!jwtSecret) {
-            throw new Error("JWT_SECRET is missing when signing the token!");
-        }
         return {
             access_token: await this.jwtService.sign(payload, {
                 secret: process.env.JWT_SECRET,
@@ -49,20 +45,18 @@ let AuthService = class AuthService {
     }
     async validateUser(userLoginDto) {
         const user = await this.userModel.findOne({ email: userLoginDto.email });
-        if (user && (await bcrypt.compare(userLoginDto.password, user.password))) {
+        if (user && (await bcrypt.compare(userLoginDto.password, user.password)))
             return user;
-        }
         return null;
     }
     async createUser(createUserDto) {
         const existingUser = await this.userModel.findOne({
             email: createUserDto.email,
         });
-        if (existingUser) {
+        if (existingUser)
             throw new common_1.ConflictException("User with this email already exists.");
-        }
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-        const verificationToken = (0, crypto_1.randomBytes)(5).toString("hex").slice(0, length);
+        const verificationToken = (0, crypto_1.randomBytes)(100010).toString("hex").slice(0, 20);
         const newUser = new this.userModel({
             ...createUserDto,
             password: hashedPassword,
@@ -76,9 +70,8 @@ let AuthService = class AuthService {
     }
     async verifyEmail(token) {
         const user = await this.findByVerificationToken(token);
-        if (!user) {
+        if (!user)
             throw new Error("Invalid verification token");
-        }
         user.isVerified = true;
         user.verificationToken = null;
         return await user.save();

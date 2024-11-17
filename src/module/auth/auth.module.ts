@@ -7,7 +7,7 @@ import { UserModule } from "../user/user.module";
 import { EmailService } from "src/shared/common/email.service";
 import { UserService } from "../user/user.service";
 import { APP_GUARD } from "@nestjs/core";
-import { JwtAuthGuard } from "./jwt-auth.guard";
+import { JwtAuthGuard } from "./jwtAuth.guard";
 import { RolesGuard } from "./roles.guard";
 
 @Module({
@@ -15,7 +15,7 @@ import { RolesGuard } from "./roles.guard";
     UserModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: "1h" },
+      signOptions: { expiresIn: "3h" },
     }),
   ],
   providers: [

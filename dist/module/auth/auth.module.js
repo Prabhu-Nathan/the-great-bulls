@@ -16,7 +16,7 @@ const user_module_1 = require("../user/user.module");
 const email_service_1 = require("../../shared/common/email.service");
 const user_service_1 = require("../user/user.service");
 const core_1 = require("@nestjs/core");
-const jwt_auth_guard_1 = require("./jwt-auth.guard");
+const jwtAuth_guard_1 = require("./jwtAuth.guard");
 const roles_guard_1 = require("./roles.guard");
 let AuthModule = class AuthModule {
 };
@@ -27,7 +27,7 @@ exports.AuthModule = AuthModule = __decorate([
             user_module_1.UserModule,
             jwt_1.JwtModule.register({
                 secret: process.env.JWT_SECRET,
-                signOptions: { expiresIn: "1h" },
+                signOptions: { expiresIn: "3h" },
             }),
         ],
         providers: [
@@ -38,7 +38,7 @@ exports.AuthModule = AuthModule = __decorate([
             email_service_1.EmailService,
             {
                 provide: core_1.APP_GUARD,
-                useClass: jwt_auth_guard_1.JwtAuthGuard,
+                useClass: jwtAuth_guard_1.JwtAuthGuard,
             },
             {
                 provide: core_1.APP_GUARD,
