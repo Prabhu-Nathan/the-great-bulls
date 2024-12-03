@@ -1,3 +1,3 @@
-enum AppConfig {
-  HOST = "localhost:3000",
-}
+export const AppConfig = {
+  HOST: "http://localhost:3000",
+};

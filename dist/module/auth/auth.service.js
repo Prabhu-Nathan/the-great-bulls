@@ -28,6 +28,7 @@ let AuthService = class AuthService {
     }
     async login(userLoginDto) {
         const user = await this.validateUser(userLoginDto);
+        console.log('user', user);
         if (!user)
             throw new common_1.UnauthorizedException("Invalid credentials");
         const payload = {
@@ -50,9 +51,11 @@ let AuthService = class AuthService {
         return null;
     }
     async createUser(createUserDto) {
+        console.log('createUser ', createUserDto);
         const existingUser = await this.userModel.findOne({
             email: createUserDto.email,
         });
+        console.log('existingUser ', existingUser);
         if (existingUser)
             throw new common_1.ConflictException("User with this email already exists.");
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);

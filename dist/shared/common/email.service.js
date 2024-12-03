@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmailService = void 0;
 const common_1 = require("@nestjs/common");
 const nodemailer = require("nodemailer");
+const appConfig_1 = require("../common/appConfig");
 let EmailService = class EmailService {
     constructor() {
         this.transporter = nodemailer.createTransport({
@@ -28,7 +29,7 @@ let EmailService = class EmailService {
         });
     }
     async sendVerificationEmail(email, token) {
-        const url = `${AppConfig.HOST}/auth/verify-email?token=${token}`;
+        const url = `${appConfig_1.AppConfig?.HOST}/auth/verify-email?token=${token}`;
         await this.transporter.sendMail({
             from: "thegreatbulls@gmail.com",
             to: email,
