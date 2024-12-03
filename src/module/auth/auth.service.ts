@@ -24,6 +24,8 @@ export class AuthService {
   async login(userLoginDto: UserLoginDto) {
     const user = await this.validateUser(userLoginDto);
 
+    console.log('user',user);
+    
     if (!user) throw new UnauthorizedException("Invalid credentials");
 
     const payload = {
@@ -52,10 +54,14 @@ export class AuthService {
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
+    console.log('createUser ',createUserDto);
+    
     const existingUser = await this.userModel.findOne({
       email: createUserDto.email,
     });
 
+    // console.log('existingUser ',existingUser);
+    
     if (existingUser)
       throw new ConflictException("User with this email already exists.");
 
