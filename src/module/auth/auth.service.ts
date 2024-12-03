@@ -60,7 +60,7 @@ export class AuthService {
       email: createUserDto.email,
     });
 
-    console.log('existingUser ',existingUser);
+    // console.log('existingUser ',existingUser);
     
     if (existingUser)
       throw new ConflictException("User with this email already exists.");
