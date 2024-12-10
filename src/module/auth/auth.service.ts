@@ -21,6 +21,15 @@ export class AuthService {
     private emailService: EmailService
   ) {}
 
+  async validateUser(userLoginDto: UserLoginDto): Promise<User> {
+    const user = await this.userModel.findOne({ email: userLoginDto.email });
+
+    if (user && (await bcrypt.compare(userLoginDto.password, user.password)))
+      return user;
+
+    return null;
+  }
+
   async login(userLoginDto: UserLoginDto) {
     const user = await this.validateUser(userLoginDto);
 
@@ -40,15 +49,6 @@ export class AuthService {
         secret: process.env.JWT_SECRET,
       }),
     };
-  }
-
-  async validateUser(userLoginDto: UserLoginDto): Promise<User> {
-    const user = await this.userModel.findOne({ email: userLoginDto.email });
-
-    if (user && (await bcrypt.compare(userLoginDto.password, user.password)))
-      return user;
-
-    return null;
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
