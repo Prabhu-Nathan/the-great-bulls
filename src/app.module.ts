@@ -7,6 +7,7 @@ import { AuthModule } from "./module/auth/auth.module";
 import { AuthController } from "./module/auth/auth.controller";
 import { AuthService } from "./module/auth/auth.service";
 import { JwtService } from "@nestjs/jwt";
+import { ContactRequestModule } from "./module/contact-request/contact-request.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,9 +16,10 @@ import { JwtService } from "@nestjs/jwt";
     MongooseModule.forRoot(process.env.DB_URL),
     AuthModule,
     UserModule,
+    ContactRequestModule,
   ],
   controllers: [AuthController],
   providers: [EmailService, AuthService, JwtService],
   exports: [AuthService, EmailService, JwtService],
 })
-export class AppModule {}
+export class AppModule { }
