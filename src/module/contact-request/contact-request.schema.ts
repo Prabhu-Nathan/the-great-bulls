@@ -5,7 +5,7 @@ export const ContactRequestSchema = new Schema({
     email: { type: String, require: true },
     mobileNo: { type: Number, require: true },
     message: { type: String, require: true }
-})
+}, { timestamps: true })
 
 export interface ContactRequest extends Document {
     name: string;
