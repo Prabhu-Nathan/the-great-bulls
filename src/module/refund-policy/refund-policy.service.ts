@@ -9,7 +9,6 @@ export class RefundPolicyService {
         @InjectModel('RefundPolicy') private readonly refundPolicyModel: Model<RefundPolicy>
     ) { }
 
-    //create new refund policy
     async createRefundPolicy(content: string): Promise<RefundPolicy> {
         const existingEntry = await this.refundPolicyModel.findOne();
         if (existingEntry) {
@@ -21,7 +20,6 @@ export class RefundPolicyService {
         }
     }
 
-    //get refund policy
     async getRefundPolicy(): Promise<RefundPolicy[]> {
         return this.refundPolicyModel.find().exec()
     }

@@ -11,4 +11,4 @@ import { RefundPolicyController } from "./refund-policy.controller";
     controllers: [RefundPolicyController],
     providers: [RefundPolicyService]
 })
-export class RefundPolicyModule { }
+export class RefundPolicyModule {}

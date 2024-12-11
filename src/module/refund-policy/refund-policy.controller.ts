@@ -1,13 +1,14 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { RefundPolicyService } from "./refund-policy.service";
 import { Public } from "../auth/public.decorator";
+import { Roles } from "../auth/roles.decorator";
+import { Role } from "../user/enum";
 
 @Controller('refund-policy')
 export class RefundPolicyController {
     constructor(private readonly refundPolicyService: RefundPolicyService) { }
 
-    //create refund policy
-    @Public()
+    @Roles(Role.ADMIN)
     @Post()
     async createRefundPolicy(@Body() body: { content: string }) {
         const result = await this.refundPolicyService.createRefundPolicy(body.content)
@@ -18,7 +19,6 @@ export class RefundPolicyController {
         }
     }
 
-    //get refund policy
     @Public()
     @Get()
     async getRefundPolicy() {
