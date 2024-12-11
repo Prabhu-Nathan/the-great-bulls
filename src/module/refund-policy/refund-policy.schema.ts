@@ -1,9 +1,9 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Document, Schema } from "mongoose";
 
-@Schema()
-export class RefundPolicy extends Document {
-    @Prop({ required: true })
-    content: string
+
+export const RefundPolicySchema = new Schema({
+    content: { type: String, require: true }
+})
+export interface RefundPolicy extends Document {
+    content: String
 }
-export const RefundPolicySchema = SchemaFactory.createForClass(RefundPolicy)
