@@ -9,4 +9,4 @@ import { ContactRequestController } from "./contact-request.controller";
     providers: [ContactRequestService],
     controllers: [ContactRequestController]
 })
-export class ContactRequestModule { }
+export class ContactRequestModule {}

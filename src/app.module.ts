@@ -22,4 +22,4 @@ import { ContactRequestModule } from "./module/contact-request/contact-request.m
   providers: [EmailService, AuthService, JwtService],
   exports: [AuthService, EmailService, JwtService],
 })
-export class AppModule { }
+export class AppModule {}

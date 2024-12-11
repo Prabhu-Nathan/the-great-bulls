@@ -1,16 +1,15 @@
 import { Document, Schema } from "mongoose";
 
+export const ContactRequestSchema = new Schema({
+    name: { type: String, required: true },
+    email: { type: String, require: true },
+    mobileNo: { type: Number, require: true },
+    message: { type: String, require: true }
+})
+
 export interface ContactRequest extends Document {
     name: string;
     email: string;
-    mobileNo: number;
+    mobileNo: string;
     message: string
-
 }
-
-export const ContactRequestSchema = new Schema<ContactRequest>({
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    mobileNo: { type: Number, required: true },
-    message: { type: String, required: true }
-}, { timestamps: true })

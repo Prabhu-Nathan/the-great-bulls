@@ -1,41 +1,27 @@
 import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { ContactRequestService } from "./contact-request.service";
-import { Public } from "../auth/public.decorator";
+import { Roles } from "../auth/roles.decorator";
+import { Role } from "../user/enum";
 
 @Controller('contact-request')
 export class ContactRequestController {
     constructor(private readonly contactRequestService: ContactRequestService) { }
 
-    @Public()
+    @Roles(Role.STUDENT)
     @Post()
     async createContactRequest(@Body() body: { name: string; email: string; mobileNo: number; message: string }) {
-        const result = await this.contactRequestService.createContactRequest(body.name, body.email, body.mobileNo, body.message)
-        return {
-            status: 200,
-            message: 'Contact Request created successfully',
-            data: result
-        }
+        return await this.contactRequestService.createContactRequest(body.name, body.email, body.mobileNo, body.message)
     }
 
-    @Public()
+    @Roles(Role.ADMIN)
     @Get()
     async getContactRequest() {
-        const result = await this.contactRequestService.getContactRequest();
-        return {
-            status: 200,
-            message: 'Contact Request fetched successfully',
-            data: result
-        }
+        return await this.contactRequestService.getContactRequest();
     }
 
-    @Public()
+    @Roles(Role.ADMIN)
     @Delete(':id')
     async deleteContactRequest(@Param('id') id: string) {
-        const result = await this.contactRequestService.deleteContactRequest(id);
-        return {
-            status: 200,
-            message: 'Contact Request deleted successfully',
-            data: result
-        }
+        return await this.contactRequestService.deleteContactRequest(id); 
     }
 }
