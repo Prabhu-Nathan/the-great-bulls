@@ -9,7 +9,6 @@ export class PrivacyPolicyService {
         @InjectModel('PrivacyPolicy') private readonly privacyPolicyModel: Model<PrivacyPolicy>
     ) { }
 
-    //create new privacy policy
     async createPrivacyPolicy(content: string): Promise<PrivacyPolicy> {
         const existingEntry = await this.privacyPolicyModel.findOne()
         if (existingEntry) {
@@ -21,7 +20,6 @@ export class PrivacyPolicyService {
         }
     }
 
-    //get privacy policy
     async getPrivacyPolicy(): Promise<PrivacyPolicy[]> {
         return this.privacyPolicyModel.find().exec()
     }

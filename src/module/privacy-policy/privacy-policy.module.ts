@@ -11,4 +11,4 @@ import { PrivacyPolicyService } from "./privacy-policy.service";
     controllers: [PrivacyPolicyController],
     providers: [PrivacyPolicyService]
 })
-export class PrivacyPolicyModule { }
+export class PrivacyPolicyModule {}

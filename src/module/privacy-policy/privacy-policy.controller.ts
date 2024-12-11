@@ -1,33 +1,22 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { PrivacyPolicyService } from "./privacy-policy.service";
 import { Public } from "../auth/public.decorator";
+import { Roles } from "../auth/roles.decorator";
+import { Role } from "../user/enum";
 
 @Controller('privacy-policy')
 export class PrivacyPolicyController {
     constructor(private readonly privacyPolicyService: PrivacyPolicyService) { }
 
-    //create privacy policy
-    @Public()
+    @Roles(Role.ADMIN)
     @Post()
     async createPrivacyPolicy(@Body() body: { content: string }) {
-        const result = await this.privacyPolicyService.createPrivacyPolicy(body.content)
-        return {
-            status: 200,
-            message: 'Privacy Policy updated succesfully',
-            data: result
-        }
+        return await this.privacyPolicyService.createPrivacyPolicy(body.content)
     }
 
-    //get privacy policy
     @Public()
     @Get()
     async getPrivacyPolicy() {
-        const result = await this.privacyPolicyService.getPrivacyPolicy()
-        return {
-            status: 200,
-            message: 'Privacy Policy fetched successfully',
-            data: result
-
-        }
+        return await this.privacyPolicyService.getPrivacyPolicy()
     }
 }

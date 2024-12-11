@@ -1,9 +1,9 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Document, Schema } from "mongoose";
 
-@Schema()
-export class PrivacyPolicy extends Document {
-    @Prop({ required: true })
+export const PrivacyPolicySchema = new Schema({
+    content: { type: String, required: true }
+}, { timestamps: true })
+
+export interface PrivacyPolicy extends Document {
     content: string
 }
-export const PrivacyPolicySchema = SchemaFactory.createForClass(PrivacyPolicy)
