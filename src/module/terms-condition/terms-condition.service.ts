@@ -10,8 +10,6 @@ export class TermsConditionService {
         @InjectModel('TermsCondition') private readonly termsConditionModel: Model<TermsCondition>
     ) { }
 
-
-    //create a new terms and Condition
     async createTermsCondition(content: string): Promise<TermsCondition> {
         const existingEntry = await this.termsConditionModel.findOne();
         if (existingEntry) {
@@ -24,7 +22,6 @@ export class TermsConditionService {
 
     }
 
-    //Get terms and Condition
     async getTermsConditions(): Promise<TermsCondition[]> {
         return this.termsConditionModel.find().exec()
     }

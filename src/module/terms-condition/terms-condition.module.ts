@@ -11,4 +11,4 @@ import { TermsConditionService, } from "./terms-condition.service";
     controllers: [TermsConditionController],
     providers: [TermsConditionService]
 })
-export class TermsConditionModule { }
+export class TermsConditionModule {}
