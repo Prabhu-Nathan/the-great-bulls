@@ -11,4 +11,4 @@ import { CourseService } from "./course.service";
     controllers: [CourseController],
     providers: [CourseService]
 })
-export class CourseModule { }
+export class CourseModule {}

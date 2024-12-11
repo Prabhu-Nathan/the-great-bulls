@@ -22,4 +22,4 @@ import { CourseModule } from "./module/courses/course.module";
   providers: [EmailService, AuthService, JwtService],
   exports: [AuthService, EmailService, JwtService],
 })
-export class AppModule { }
+export class AppModule {}
