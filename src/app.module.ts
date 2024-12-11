@@ -22,4 +22,4 @@ import { TermsConditionModule } from "./module/terms-condition/terms-condition.m
   providers: [EmailService, AuthService, JwtService],
   exports: [AuthService, EmailService, JwtService],
 })
-export class AppModule { }
+export class AppModule {}

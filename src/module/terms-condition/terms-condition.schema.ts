@@ -1,10 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 
-@Schema()
-export class TermsCondition extends Document {
-    @Prop({ required: true })
-    content: string;
+export const TermsConditionSchema = new Schema({
+    content: { type: String, required: true }
+})
+export interface TermsCondition extends Document {
+    content: string
 }
-
-export const TermsConditionSchema = SchemaFactory.createForClass(TermsCondition);
