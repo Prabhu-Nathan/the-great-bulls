@@ -11,18 +11,21 @@ export class TermsConditionService {
     ) { }
 
     async createTermsCondition(content: string): Promise<TermsCondition> {
-        const existingEntry = await this.termsConditionModel.findOne();
-        if (existingEntry) {
-            existingEntry.content = content;
-            return existingEntry.save()
-        } else {
-            const newEntry = new this.termsConditionModel({ content });
-            return newEntry.save()
+
+        const latest = await this.termsConditionModel.findOne({ active: true }).sort({ version: -1 })
+
+        if (latest) {
+            latest.active = false;
+            await latest.save();
         }
+
+        const newEntry = new this.termsConditionModel({ content, version: latest ? latest.version + 1 : 1, active: true });
+        return newEntry.save()
+
 
     }
 
     async getTermsConditions(): Promise<TermsCondition[]> {
-        return this.termsConditionModel.find().exec()
+        return this.termsConditionModel.find({ active: true }).exec()
     }
 }

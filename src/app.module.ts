@@ -8,6 +8,7 @@ import { AuthController } from "./module/auth/auth.controller";
 import { AuthService } from "./module/auth/auth.service";
 import { JwtService } from "@nestjs/jwt";
 import { TermsConditionModule } from "./module/terms-condition/terms-condition.module";
+import { UserTermsConditionModule } from "./module/UserTermsCondition/user-terms-condition.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -16,10 +17,11 @@ import { TermsConditionModule } from "./module/terms-condition/terms-condition.m
     MongooseModule.forRoot(process.env.DB_URL),
     AuthModule,
     UserModule,
-    TermsConditionModule
+    TermsConditionModule,
+    UserTermsConditionModule
   ],
   controllers: [AuthController],
   providers: [EmailService, AuthService, JwtService],
   exports: [AuthService, EmailService, JwtService],
 })
-export class AppModule {}
+export class AppModule { }

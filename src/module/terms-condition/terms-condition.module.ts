@@ -9,6 +9,7 @@ import { TermsConditionService, } from "./terms-condition.service";
         MongooseModule.forFeature([{ name: 'TermsCondition', schema: TermsConditionSchema }])
     ],
     controllers: [TermsConditionController],
-    providers: [TermsConditionService]
+    providers: [TermsConditionService],
+    exports: [MongooseModule],
 })
 export class TermsConditionModule {}
