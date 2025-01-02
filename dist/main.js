@@ -18,6 +18,11 @@ async function bootstrap() {
         }
     });
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    app.enableCors({
+        origin: ['http://localhost:3000', 'http://localhost:3001'],
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        credentials: true,
+    });
     const options = new swagger_1.DocumentBuilder()
         .setVersion("1.0")
         .addServer("http://localhost:3000/", "Local environment")
