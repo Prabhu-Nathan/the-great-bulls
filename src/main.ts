@@ -1,6 +1,7 @@
-import { NestFactory } from "@nestjs/core"; // NestFactory: This is a utility to create a NestJS application. It helps bootstrap the application, configure it, and listen to HTTP requests.
-import { AppModule } from "./app.module";// AppModule: This is the root module of the application. It contains all the necessary configurations for your application.
-import { ValidationPipe } from "@nestjs/common";// ValidationPipe: This is a NestJS class that helps validate incoming data based on decorators such as @Body(), @Query(), etc. It's part of the validation mechanism that ensures data integrity.
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
+import { ValidationPipe } from "@nestjs/common";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 async function bootstrap() {
   const requiredEnvVars = [
@@ -21,15 +22,14 @@ async function bootstrap() {
   // If any variable is missing, it logs the missing variable and then stops the execution of the application (process.exit(1)).
 
   const app = await NestFactory.create(AppModule);
-  // NestFactory.create(AppModule): This initializes the NestJS app by creating an instance of the AppModule, which contains all the configurations for controllers, services, middleware, and other modules.
-  // await: The create method is asynchronous, and await ensures that the app is fully created before moving forward.
 
-  // Enable CORS
-  app.enableCors({
-    origin: ['http://localhost:3000', 'http://localhost:3001'], // Allow both origins
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, // Allow credentials (cookies, headers)
-  });
+  const options = new DocumentBuilder()
+    .setVersion("1.0")
+    .addServer("http://localhost:3000/", "Local environment")
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup("api-docs", app, document);
 
   await app.listen(process.env.PORT ?? 3000);
   // This line starts the application and tells it to listen for incoming HTTP requests. It listens on the port specified in the PORT environment variable or defaults to port 3000 if not provided (?? is the nullish coalescing operator).

@@ -26,6 +26,12 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
         this.emailService = emailService;
     }
+    async validateUser(userLoginDto) {
+        const user = await this.userModel.findOne({ email: userLoginDto.email });
+        if (user && (await bcrypt.compare(userLoginDto.password, user.password)))
+            return user;
+        return null;
+    }
     async login(userLoginDto) {
         const user = await this.validateUser(userLoginDto);
         console.log('user', user);
@@ -43,12 +49,6 @@ let AuthService = class AuthService {
                 secret: process.env.JWT_SECRET,
             }),
         };
-    }
-    async validateUser(userLoginDto) {
-        const user = await this.userModel.findOne({ email: userLoginDto.email });
-        if (user && (await bcrypt.compare(userLoginDto.password, user.password)))
-            return user;
-        return null;
     }
     async createUser(createUserDto) {
         console.log('createUser ', createUserDto);

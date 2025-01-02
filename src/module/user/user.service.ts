@@ -11,7 +11,7 @@ export class UserService {
   constructor(@InjectModel("User") private readonly userModel: Model<User>) {}
 
   async findAllUsers() {
-    return (await this.userModel.find().exec()).map(Mapper.toUserResponse);
+    return (await this.userModel.find()).map(Mapper.toUserResponse);
   }
 
   async findUserByEmail(email: string): Promise<User | null> {
