@@ -10,6 +10,7 @@ import { JwtService } from "@nestjs/jwt";
 import { FAQModule } from "./module/faq/faq.module";
 import { PrivacyPolicyModule } from "./module/privacy-policy/privacy-policy.module";
 import { RefundPolicyModule } from "./module/refund-policy/refund-policy.module";
+import { ContactRequestModule } from "./module/contact-request/contact-request.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,7 +21,8 @@ import { RefundPolicyModule } from "./module/refund-policy/refund-policy.module"
     UserModule,
     FAQModule,
     PrivacyPolicyModule,
-    RefundPolicyModule
+    RefundPolicyModule,
+    ContactRequestModule,
   ],
   controllers: [AuthController],
   providers: [EmailService, AuthService, JwtService],
