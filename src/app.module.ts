@@ -8,6 +8,7 @@ import { AuthController } from "./module/auth/auth.controller";
 import { AuthService } from "./module/auth/auth.service";
 import { JwtService } from "@nestjs/jwt";
 import { FAQModule } from "./module/faq/faq.module";
+import { PrivacyPolicyModule } from "./module/privacy-policy/privacy-policy.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,9 +18,10 @@ import { FAQModule } from "./module/faq/faq.module";
     AuthModule,
     UserModule,
     FAQModule,
+    PrivacyPolicyModule
   ],
   controllers: [AuthController],
   providers: [EmailService, AuthService, JwtService],
   exports: [AuthService, EmailService, JwtService],
 })
-export class AppModule {}
+export class AppModule { }
