@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { Role } from "./enum";
 import { Roles } from "../auth/roles.decorator";
@@ -9,12 +9,17 @@ import { RolesGuard } from "../auth/roles.guard";
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller("user")
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   @Roles(Role.ADMIN)
   @Get()
-  public getAllUsers() {
-    return this.userService.findAllUsers();
+  public getAllUsers(
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+  ) {
+    const pageNumber = parseInt(page, 10) || 1;
+    const limitNumber = parseInt(limit, 10) || 10;
+    return this.userService.findAllUsers(pageNumber, limitNumber);
   }
 
   @Get("/:email")

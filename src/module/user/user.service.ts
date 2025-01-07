@@ -8,10 +8,25 @@ import { User } from "./users.schema";
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel("User") private readonly userModel: Model<User>) {}
+  constructor(@InjectModel("User") private readonly userModel: Model<User>) { }
 
-  async findAllUsers() {
-    return (await this.userModel.find()).map(Mapper.toUserResponse);
+  async findAllUsers(page: number = 1, limit: number = 10) {
+    console.log('page : ', page, "limit : ", limit);
+
+    // return (await this.userModel.find()).map(Mapper.toUserResponse);
+    const totalUser = await this.userModel.countDocuments();
+    const totalPage = Math.ceil(totalUser / limit);
+
+    const user = await this.userModel.find().skip((page - 1) * limit).limit(limit).exec();
+
+    return {
+      currentPage: page,
+      totalPage,
+      totalUser,
+      perPage: limit,
+      user: user.map(Mapper.toUserResponse)
+
+    }
   }
 
   async findUserByEmail(email: string): Promise<User | null> {
