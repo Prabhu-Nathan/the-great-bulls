@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import * as nodemailer from "nodemailer";
+import { AppConfig } from "../common/appConfig";
+
 
 @Injectable()
 export class EmailService {
@@ -21,7 +23,7 @@ export class EmailService {
   }
 
   async sendVerificationEmail(email: string, token: string) {
-    const url = `${AppConfig.HOST}/auth/verify-email?token=${token}`;
+    const url = `${AppConfig?.HOST}/auth/verify-email?token=${token}`;
     await this.transporter.sendMail({
       from: "thegreatbulls@gmail.com",
       to: email,
